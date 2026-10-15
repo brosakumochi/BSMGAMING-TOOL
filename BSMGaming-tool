@@ -1,0 +1,546 @@
+```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BSMGaming | Official Portal</title>
+<style>
+:root {
+  --bg:#0b1020; --panel:#151d32; --panel2:#202b45;
+  --text:#f5f7ff; --muted:#aab5d0; --blue:#5b8cff;
+  --purple:#9c68ff; --border:#34415f; --gold:#ffd66b;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,"Noto Sans JP",sans-serif}
+header{padding:24px 16px;text-align:center;
+  background:linear-gradient(135deg,#162c61,#4a247e)}
+header h1{margin:0;font-size:30px;letter-spacing:2px}
+header p{margin:8px 0 0;color:#dce5ff}
+nav{display:flex;gap:8px;padding:12px;overflow-x:auto;
+  background:#10172a;position:sticky;top:0;z-index:5}
+button,.navbtn{border:0;border-radius:10px;padding:11px 14px;
+  background:var(--panel2);color:white;font-weight:700;cursor:pointer}
+nav button{white-space:nowrap}
+button:hover{filter:brightness(1.15)}
+nav button.active,.primary{background:var(--blue);color:white}
+main{max-width:1050px;margin:auto;padding:18px}
+.page{display:none}.page.active{display:block}
+.card{background:var(--panel);border:1px solid var(--border);
+  border-radius:16px;padding:18px;margin-bottom:16px}
+h2{margin-top:0;font-size:22px}
+h3{margin-bottom:8px}
+.muted,small{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+input,textarea,select{width:100%;padding:12px;margin:6px 0 12px;
+  border:1px solid var(--border);border-radius:9px;
+  background:#0c1428;color:white;font:inherit}
+textarea{min-height:90px;resize:vertical}
+label{display:block;color:var(--muted);font-size:14px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.row input{flex:1;min-width:180px}
+.badge{display:inline-block;padding:5px 9px;border-radius:7px;
+  background:#283654;margin:3px;font-size:13px}
+.tier{font-weight:900;min-width:42px;display:inline-block;
+  padding:9px;border-radius:8px;text-align:center;margin-right:8px}
+.tS{background:#e6bd48;color:#201800}.tA{background:#d56bff}
+.tB{background:#5e94ff}.tC{background:#4b617e}
+.notice{padding:12px;border-radius:10px;background:#101a31;
+  border-left:4px solid var(--blue);margin:8px 0}
+.danger{border-left-color:#ff6666}
+.success{color:#7df0b1}.hidden{display:none!important}
+footer{text-align:center;padding:25px;color:var(--muted)}
+hr{border:0;border-top:1px solid var(--border);margin:18px 0}
+#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
+  background:#283654;padding:12px 18px;border-radius:12px;
+  display:none;z-index:20;max-width:90%;text-align:center}
+#maintenance{position:fixed;inset:0;background:#080c18;z-index:99;
+  display:none;align-items:center;justify-content:center;text-align:center;padding:24px}
+@media(max-width:600px){header h1{font-size:24px}main{padding:12px}.card{padding:14px}}
+</style>
+</head>
+<body>
+
+<div id="maintenance">
+  <div>
+    <h1>🛠️ メンテナンス中</h1>
+    <p>BSMGamingポータルは現在メンテナンス中です。</p>
+    <p class="muted">管理者がメンテナンスを終了すると再び利用できます。</p>
+  </div>
+</div>
+
+<header>
+  <h1>⚡ BSMGaming</h1>
+  <p>OFFICIAL GAMING PORTAL</p>
+  <div class="row" style="justify-content:center;margin-top:14px">
+    <span class="badge">🎮 Brawl Stars</span>
+    <span class="badge">🏆 Aim for Victory</span>
+  </div>
+</header>
+
+<nav id="navigation">
+  <button class="active" data-page="home">🏠 ホーム</button>
+  <button data-page="profile">🔎 プレイヤー検索</button>
+  <button data-page="rank">🏆 ランク目安</button>
+  <button data-page="ai">🤖 編成提案</button>
+  <button data-page="tier">📊 Tier表</button>
+  <button data-page="news">📰 お知らせ</button>
+  <button data-page="members">👥 メンバー</button>
+  <button data-page="gacha">🎲 ガチャ</button>
+  <button data-page="account">👤 アカウント</button>
+  <button data-page="admin">🔐 管理者</button>
+</nav>
+
+<main>
+<section id="home" class="page active">
+  <div class="card">
+    <h2>🔥 BSMGamingへようこそ！</h2>
+    <p>ゲーム情報をチェックして、仲間と一緒に勝利を目指そう！</p>
+    <div class="grid">
+      <div class="card">
+        <h3>🔎 プレイヤー検索</h3>
+        <p class="muted">プレイヤータグを入力して検索画面へ。</p>
+        <button class="primary" onclick="go('profile')">検索する</button>
+      </div>
+      <div class="card">
+        <h3>📊 Tier表</h3>
+        <p class="muted">キャラクターの評価を確認しよう。</p>
+        <button onclick="go('tier')">Tierを見る</button>
+      </div>
+      <div class="card">
+        <h3>🎲 ガチャシミュレーター</h3>
+        <p class="muted">ゲーム内通貨を使わないお楽しみ機能。</p>
+        <button onclick="go('gacha')">ガチャを引く</button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>📢 最新のお知らせ</h2>
+    <div id="homeNews"></div>
+  </div>
+  <div class="card">
+    <h2>ℹ️ このサイトについて</h2>
+    <p>BSMGamingの情報をまとめるためのポータルです。</p>
+    <p class="muted">このデモのデータは、現在使用しているブラウザ内に保存されます。</p>
+  </div>
+</section>
+
+<section id="profile" class="page">
+  <div class="card">
+    <h2>🔎 プレイヤー検索</h2>
+    <p class="muted">プレイヤータグを入力して検索できます。</p>
+    <label for="playerTag">プレイヤータグ（例：#ABC123）</label>
+    <div class="row">
+      <input id="playerTag" placeholder="#プレイヤータグ">
+      <button class="primary" onclick="searchPlayer()">検索</button>
+    </div>
+    <div id="playerResult"></div>
+    <hr>
+    <p class="muted">公式プレイヤー情報を取得するには、サーバー側でSupercell APIとの接続設定が必要です。このデモはAPIに接続しません。</p>
+  </div>
+</section>
+
+<section id="rank" class="page">
+  <div class="card">
+    <h2>🏆 ランクアップ目安</h2>
+    <p class="muted">入力した数字から必要な勝利数の目安を計算します。実際のゲーム結果を保証するものではありません。</p>
+    <label>現在のポイント</label>
+    <input type="number" id="currentPoints" value="500" min="0">
+    <label>目標ポイント</label>
+    <input type="number" id="targetPoints" value="1000" min="0">
+    <label>1勝あたりの平均獲得ポイント</label>
+    <input type="number" id="pointsPerWin" value="25" min="1">
+    <button class="primary" onclick="calculateRank()">目安を計算</button>
+    <div id="rankResult" class="notice hidden"></div>
+  </div>
+</section>
+
+<section id="ai" class="page">
+  <div class="card">
+    <h2>🤖 キャラクター編成提案</h2>
+    <p class="muted">モードとマップの特徴を選ぶと、デモ用の候補を表示します。リアルタイムのAIや最新メタ情報には接続していません。</p>
+    <label>ゲームモード</label>
+    <select id="gameMode">
+      <option>エメラルドハント</option>
+      <option>ブロストライカー</option>
+      <option>賞金稼ぎ</option>
+      <option>強奪</option>
+      <option>ホットゾーン</option>
+      <option>ノックアウト</option>
+    </select>
+    <label>マップの特徴</label>
+    <select id="mapStyle">
+      <option value="open">開けたマップ</option>
+      <option value="bush">草むらが多い</option>
+      <option value="wall">壁が多い</option>
+    </select>
+    <button class="primary" onclick="suggestTeam()">編成候補を出す</button>
+    <div id="teamResult"></div>
+  </div>
+</section>
+
+<section id="tier" class="page">
+  <div class="card">
+    <h2>📊 キャラクターTier表</h2>
+    <p class="muted">以下は表示機能を確認するためのサンプル評価です。公式評価や現在の最強ランキングではありません。</p>
+    <div id="tierList"></div>
+  </div>
+</section>
+
+<section id="news" class="page">
+  <div class="card">
+    <h2>📰 お知らせ</h2>
+    <div id="allNews"></div>
+  </div>
+</section>
+
+<section id="members" class="page">
+  <div class="card">
+    <h2>👥 メンバー一覧</h2>
+    <p class="muted">このデモでは、アカウント登録したユーザー名をこのブラウザ内で表示します。別の端末との共有にはサーバーが必要です。</p>
+    <div id="memberList"></div>
+  </div>
+</section>
+
+<section id="gacha" class="page">
+  <div class="card">
+    <h2>🎲 ガチャシミュレーター</h2>
+    <p class="muted">無料の演出シミュレーターです。実際のゲームアカウントやアイテムには影響しません。</p>
+    <div class="grid">
+      <div class="card">
+        <h3>現在の結果</h3>
+        <div id="gachaResult">ボタンを押してガチャを引こう！</div>
+      </div>
+      <div class="card">
+        <h3>操作</h3>
+        <button class="primary" onclick="pullGacha(1)">1回引く</button>
+        <button onclick="pullGacha(10)">10回引く</button>
+        <button onclick="resetGacha()">履歴をリセット</button>
+        <p id="gachaCount" class="muted">合計 0 回</p>
+      </div>
+    </div>
+    <h3>最近の結果</h3>
+    <div id="gachaHistory"></div>
+  </div>
+</section>
+
+<section id="account" class="page">
+  <div class="card">
+    <h2>👤 アカウント</h2>
+    <div id="accountStatus"></div>
+    <hr>
+    <h3>新規登録</h3>
+    <p class="muted">デモ用です。入力したパスワードはこのブラウザに保存されます。実際のパスワードを使わないでください。</p>
+    <label>ユーザー名</label>
+    <input id="regName" maxlength="24" placeholder="ユーザー名">
+    <label>パスワード（デモ用）</label>
+    <input id="regPass" type="password" placeholder="デモ用パスワード">
+    <button class="primary" onclick="registerUser()">登録</button>
+    <hr>
+    <h3>ログイン</h3>
+    <label>ユーザー名</label>
+    <input id="loginName" placeholder="ユーザー名">
+    <label>パスワード</label>
+    <input id="loginPass" type="password" placeholder="パスワード">
+    <button class="primary" onclick="loginUser()">ログイン</button>
+    <button onclick="logoutUser()">ログアウト</button>
+  </div>
+</section>
+
+<section id="admin" class="page">
+  <div class="card">
+    <h2>🔐 管理者画面</h2>
+    <div class="notice danger">
+      <strong>デモ版の注意</strong>
+      <p>この画面のロックはブラウザ内だけの簡易機能です。本番用の安全な管理者認証ではありません。実際の管理者パスワードや認証アプリのコードをここに入力しないでください。</p>
+    </div>
+    <div id="adminLogin">
+      <h3>管理画面のデモロック解除</h3>
+      <p class="muted">このブラウザで初めて使う場合は、デモ用の合言葉を自分で設定してください。実際のパスワードは使用しないでください。</p>
+      <label>デモ用の合言葉</label>
+      <input id="adminPass" type="password" placeholder="デモ用の合言葉">
+      <button class="primary" onclick="adminUnlock()">解除 / 初回設定</button>
+    </div>
+    <div id="adminPanel" class="hidden">
+      <h3>📰 お知らせを投稿</h3>
+      <label>タイトル</label>
+      <input id="newsTitle" maxlength="100" placeholder="お知らせのタイトル">
+      <label>本文</label>
+      <textarea id="newsBody" maxlength="3000" placeholder="お知らせ内容"></textarea>
+      <button class="primary" onclick="postNews()">投稿する</button>
+      <hr>
+      <h3>🛠️ メンテナンスモード</h3>
+      <p class="muted">このブラウザでのみ表示を切り替えます。</p>
+      <button onclick="toggleMaintenance()" id="maintenanceBtn">メンテナンスを開始</button>
+      <hr>
+      <h3>🧹 デモデータ管理</h3>
+      <button onclick="adminLock()">管理画面をロック</button>
+      <button onclick="clearDemoData()">デモデータを削除</button>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  BSMGaming Fan Portal · Unofficial demo<br>
+  <small>このサイトはSupercellとは提携していません。</small>
+</footer>
+<div id="toast"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const getData = (key, fallback) => {
+  try {
+    const v = localStorage.getItem(key);
+    return v === null ? fallback : JSON.parse(v);
+  } catch { return fallback; }
+};
+const setData = (key, value) => localStorage.setItem(key, JSON.stringify(value));
+
+let users = getData("bsm_users", []);
+let news = getData("bsm_news", [
+  {title:"BSMGamingポータルへようこそ！",
+   body:"各機能を使ってみてください。ここに最新のお知らせが表示されます。",
+   date:new Date().toLocaleString("ja-JP")}
+]);
+let currentUser = getData("bsm_current_user", null);
+let gachaHistory = getData("bsm_gacha_history", []);
+let gachaCount = Number(getData("bsm_gacha_count", 0));
+let maintenance = getData("bsm_maintenance", false);
+let adminUnlocked = false;
+let failedAdminAttempts = 0;
+let adminLockedUntil = 0;
+
+const sampleTiers = [
+  {tier:"S",names:["シェリー","コルト","スパイク"]},
+  {tier:"A",names:["ニタ","ブル","ジェシー"]},
+  {tier:"B",names:["ブロック","ダイナマイク","ポコ"]},
+  {tier:"C",names:["サンプルキャラA","サンプルキャラB"]}
+];
+
+function toast(msg) {
+  $("toast").textContent = msg;
+  $("toast").style.display = "block";
+  clearTimeout(window.toastTimer);
+  window.toastTimer = setTimeout(()=>$("toast").style.display="none",2600);
+}
+function go(id) {
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  $(id).classList.add("active");
+  document.querySelectorAll("nav button").forEach(b=>
+    b.classList.toggle("active",b.dataset.page===id));
+  if(id==="news") renderNews();
+  if(id==="members") renderMembers();
+  if(id==="account") renderAccount();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll("nav button").forEach(b=>
+  b.addEventListener("click",()=>go(b.dataset.page)));
+
+function searchPlayer() {
+  const tag=$("playerTag").value.trim();
+  if(!tag) { toast("プレイヤータグを入力してください"); return; }
+  $("playerResult").innerHTML =
+    '<div class="notice"><strong>検索タグ：</strong>'+escapeHTML(tag)+
+    '<p>このデモでは公式プレイヤー情報を取得できません。</p>'+
+    '<p class="muted">API接続にはサーバー側での認証情報管理と接続設定が必要です。</p></div>';
+}
+function calculateRank() {
+  const current=Number($("currentPoints").value);
+  const target=Number($("targetPoints").value);
+  const perWin=Number($("pointsPerWin").value);
+  if(![current,target,perWin].every(Number.isFinite)||perWin<=0||current<0||target<0) {
+    toast("数値を正しく入力してください"); return;
+  }
+  const diff=Math.max(0,target-current);
+  const wins=Math.ceil(diff/perWin);
+  $("rankResult").classList.remove("hidden");
+  $("rankResult").innerHTML=diff===0
+    ? "🎉 目標ポイントに到達しています！"
+    : "目標まで <strong>"+diff+"</strong> ポイント。<br>平均 "+perWin+
+      " ポイント獲得できる場合、約 <strong>"+wins+"</strong> 勝が目安です。";
+}
+function suggestTeam() {
+  const mode=$("gameMode").value, style=$("mapStyle").value;
+  let team;
+  if(style==="open") team=["コルト","ブロック","ベル"];
+  else if(style==="bush") team=["シェリー","ブル","ニタ"];
+  else team=["ダイナマイク","ジェシー","ポコ"];
+  if(mode==="ブロストライカー") team=["シェリー","コルト","ポコ"];
+  if(mode==="強奪") team=["コルト","ブル","ジェシー"];
+  $("teamResult").innerHTML=
+    '<div class="notice"><strong>モード：</strong>'+escapeHTML(mode)+
+    '<br><strong>マップ：</strong>'+({"open":"開けたマップ","bush":"草むらが多い","wall":"壁が多い"}[style])+
+    '<hr><strong>編成候補</strong><p>'+team.map(x=>'<span class="badge">'+x+'</span>').join("")+
+    '</p><small>サンプル候補です。マップやゲームバランスによって適性は変わります。</small></div>';
+}
+function renderTier() {
+  $("tierList").innerHTML=sampleTiers.map(t=>
+    '<div class="notice"><span class="tier t'+t.tier+'">'+t.tier+'</span>'+
+    t.names.map(n=>'<span class="badge">'+escapeHTML(n)+'</span>').join("")+
+    '</div>').join("");
+}
+function renderNews() {
+  const html=news.length?news.slice().reverse().map(n=>
+    '<div class="notice"><strong>'+escapeHTML(n.title)+'</strong>'+
+    '<p>'+escapeHTML(n.body).replace(/\n/g,"<br>")+'</p><small>'+escapeHTML(n.date)+'</small></div>'
+  ).join(""):'<p class="muted">お知らせはまだありません。</p>';
+  $("allNews").innerHTML=html;
+  $("homeNews").innerHTML=html;
+}
+function renderMembers() {
+  $("memberList").innerHTML=users.length?users.map(u=>
+    '<div class="notice">👤 '+escapeHTML(u.name)+'</div>'
+  ).join(""):'<p class="muted">登録メンバーはまだいません。</p>';
+}
+function renderAccount() {
+  $("accountStatus").innerHTML=currentUser
+    ? '<div class="notice">ログイン中：<strong>'+escapeHTML(currentUser)+'</strong></div>'
+    : '<p class="muted">ログインしていません。</p>';
+}
+function registerUser() {
+  const name=$("regName").value.trim(), pass=$("regPass").value;
+  if(name.length<3 || !pass) { toast("ユーザー名は3文字以上、パスワードも入力してください"); return; }
+  if(users.some(u=>u.name.toLowerCase()===name.toLowerCase())) {
+    toast("そのユーザー名は登録済みです"); return;
+  }
+  users.push({name,pass});
+  setData("bsm_users",users);
+  $("regName").value=""; $("regPass").value="";
+  renderAccount(); renderMembers();
+  toast("デモアカウントを登録しました");
+}
+function loginUser() {
+  const name=$("loginName").value.trim(), pass=$("loginPass").value;
+  const user=users.find(u=>u.name===name && u.pass===pass);
+  if(!user) { toast("ユーザー名かパスワードが違います"); return; }
+  currentUser=user.name;
+  setData("bsm_current_user",currentUser);
+  $("loginPass").value="";
+  renderAccount(); toast("ログインしました");
+}
+function logoutUser() {
+  currentUser=null; localStorage.removeItem("bsm_current_user");
+  renderAccount(); toast("ログアウトしました");
+}
+const gachaCharacters=[
+  {name:"スパイク",rarity:"レジェンド",weight:2},
+  {name:"クロウ",rarity:"レジェンド",weight:2},
+  {name:"シェリー",rarity:"レア",weight:30},
+  {name:"コルト",rarity:"レア",weight:30},
+  {name:"ジェシー",rarity:"スーパーレア",weight:16},
+  {name:"ニタ",rarity:"スーパーレア",weight:20}
+];
+function onePull() {
+  let total=gachaCharacters.reduce((s,c)=>s+c.weight,0);
+  let r=Math.random()*total;
+  for(const c of gachaCharacters) { r-=c.weight; if(r<=0) return c; }
+  return gachaCharacters[0];
+}
+function pullGacha(count) {
+  const results=[];
+  for(let i=0;i<count;i++) {
+    const c=onePull();
+    results.push(c);
+    gachaHistory.unshift({name:c.name,rarity:c.rarity});
+  }
+  gachaCount+=count;
+  gachaHistory=gachaHistory.slice(0,50);
+  setData("bsm_gacha_history",gachaHistory);
+  setData("bsm_gacha_count",gachaCount);
+  $("gachaResult").innerHTML=results.map(c=>
+    '<div class="notice">✨ <strong>'+escapeHTML(c.name)+'</strong> <span class="badge">'+escapeHTML(c.rarity)+'</span></div>'
+  ).join("");
+  renderGachaHistory(); toast(count+"回分の結果が出ました");
+}
+function renderGachaHistory() {
+  $("gachaCount").textContent="合計 "+gachaCount+" 回";
+  $("gachaHistory").innerHTML=gachaHistory.length?gachaHistory.slice(0,15).map(c=>
+    '<span class="badge">'+escapeHTML(c.name)+' · '+escapeHTML(c.rarity)+'</span>'
+  ).join(""):'<p class="muted">まだ履歴がありません。</p>';
+}
+function resetGacha() {
+  gachaHistory=[];gachaCount=0;
+  setData("bsm_gacha_history",gachaHistory);
+  setData("bsm_gacha_count",gachaCount);
+  $("gachaResult").textContent="ボタンを押してガチャを引こう！";
+  renderGachaHistory();toast("履歴をリセットしました");
+}
+function adminUnlock() {
+  if(Date.now()<adminLockedUntil) {
+    toast("ロック中です。少し待ってから試してください"); return;
+  }
+  const pass=$("adminPass").value;
+  if(!pass) {toast("デモ用の合言葉を入力してください");return;}
+  let saved=localStorage.getItem("bsm_demo_admin_key");
+  if(!saved) {
+    if(!confirm("このブラウザにデモ用の合言葉を保存します。本番のパスワードは使わないでください。設定しますか？")) return;
+    localStorage.setItem("bsm_demo_admin_key",pass);
+    saved=pass;
+    toast("デモ用の合言葉を設定しました");
+  }
+  if(pass!==saved) {
+    failedAdminAttempts++;
+    if(failedAdminAttempts>=3) {
+      adminLockedUntil=Date.now()+30000;
+      failedAdminAttempts=0;
+      toast("3回失敗しました。30秒間ロックします");
+    } else toast("合言葉が違います（"+(3-failedAdminAttempts)+"回失敗でロック）");
+    return;
+  }
+  failedAdminAttempts=0;adminUnlocked=true;
+  $("adminLogin").classList.add("hidden");
+  $("adminPanel").classList.remove("hidden");
+  $("adminPass").value="";
+  toast("デモ管理画面を開きました");
+}
+function adminLock() {
+  adminUnlocked=false;
+  $("adminLogin").classList.remove("hidden");
+  $("adminPanel").classList.add("hidden");
+  toast("管理画面をロックしました");
+}
+function postNews() {
+  if(!adminUnlocked) {toast("先に管理画面を開いてください");return;}
+  const title=$("newsTitle").value.trim(), body=$("newsBody").value.trim();
+  if(!title||!body) {toast("タイトルと本文を入力してください");return;}
+  news.push({title,body,date:new Date().toLocaleString("ja-JP")});
+  setData("bsm_news",news);
+  $("newsTitle").value="";$("newsBody").value="";
+  renderNews();toast("お知らせを投稿しました");
+}
+function toggleMaintenance() {
+  if(!adminUnlocked) return;
+  maintenance=!maintenance;
+  setData("bsm_maintenance",maintenance);
+  updateMaintenance();
+}
+function updateMaintenance() {
+  $("maintenance").style.display=maintenance?"flex":"none";
+  $("maintenanceBtn").textContent=maintenance?"メンテナンスを終了":"メンテナンスを開始";
+}
+function clearDemoData() {
+  if(!adminUnlocked) return;
+  if(!confirm("このブラウザのデモ用ユーザー、お知らせ、履歴を削除します。よろしいですか？"))return;
+  ["bsm_users","bsm_news","bsm_current_user","bsm_gacha_history",
+   "bsm_gacha_count","bsm_maintenance","bsm_demo_admin_key"].forEach(k=>localStorage.removeItem(k));
+  users=[];news=[];currentUser=null;gachaHistory=[];gachaCount=0;
+  maintenance=false;adminLock();renderNews();renderMembers();renderAccount();
+  renderGachaHistory();updateMaintenance();toast("デモデータを削除しました");
+}
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+
+renderTier();
+renderNews();
+renderMembers();
+renderAccount();
+renderGachaHistory();
+updateMaintenance();
+</script>
+</body>
+</html>
